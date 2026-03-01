@@ -28,3 +28,6 @@ extracted_pdf_content.txt
 
 # Publications folder
 publications/
+
+# Word documents
+*.docx
