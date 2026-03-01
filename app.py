@@ -13,20 +13,6 @@ app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
             ui.input_text("search", "Search:", placeholder="Enter species name..."),
-            ui.input_select(
-                "column_filter",
-                "Filter by column:",
-                choices=["All Columns"] + list(df.columns),
-                selected="All Columns"
-            ),
-            ui.input_slider(
-                "rows_per_page",
-                "Rows per page:",
-                min=10,
-                max=50,
-                value=20,
-                step=5
-            ),
             ui.hr(),
             ui.markdown(f"**Total entries:** {len(df)}"),
             ui.download_button("download_data", "Download CSV"),
@@ -51,14 +37,9 @@ def server(input, output, session):
         search_term = input.search().lower()
         
         if search_term:
-            if input.column_filter() == "All Columns":
-                mask = data.apply(
-                    lambda row: row.astype(str).str.lower().str.contains(search_term).any(),
-                    axis=1
-                )
-            else:
-                col = input.column_filter()
-                mask = data[col].astype(str).str.lower().str.contains(search_term)
+            # Search only in the first column (Mosquito Name and First Describer)
+            first_col = data.columns[0]
+            mask = data[first_col].astype(str).str.lower().str.contains(search_term)
             data = data[mask]
         
         return data.reset_index(drop=True)
