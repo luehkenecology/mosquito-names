@@ -25,3 +25,6 @@ Thumbs.db
 *.tmp
 *.temp
 extracted_pdf_content.txt
+
+# Publications folder
+publications/
