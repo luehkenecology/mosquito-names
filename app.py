@@ -1,19 +1,9 @@
 from shiny import App, ui, render, reactive
 import pandas as pd
+from data import get_dataframe
 
-# Read the CSV data - try multiple paths for compatibility with local and Shinylive
-try:
-    # For Shinylive (Pyodide) - files are served from app root
-    df = pd.read_csv("/home/pyodide/mosquito_names_table.csv")
-except FileNotFoundError:
-    try:
-        # For local development
-        from pathlib import Path
-        app_dir = Path(__file__).parent
-        df = pd.read_csv(app_dir / "mosquito_names_table.csv")
-    except:
-        # Fallback to current directory
-        df = pd.read_csv("mosquito_names_table.csv")
+# Load data from the embedded data module (Shinylive compatible)
+df = get_dataframe()
 
 app_ui = ui.page_fluid(
     ui.panel_title("European Mosquito Names Database"),
