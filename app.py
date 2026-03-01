@@ -1,8 +1,10 @@
 from shiny import App, ui, render, reactive
 import pandas as pd
+from pathlib import Path
 
-# Read the CSV data
-df = pd.read_csv("mosquito_names_table.csv")
+# Read the CSV data (resolve path relative to this file for Shinylive)
+app_dir = Path(__file__).parent
+df = pd.read_csv(app_dir / "mosquito_names_table.csv")
 
 app_ui = ui.page_fluid(
     ui.panel_title("European Mosquito Names Database"),
